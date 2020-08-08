@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %} {% block body %}
+<div class="container">
+    {% if app.flashes is defined %}
+    {% for message in app.flashes('notice') %}
+        <div class="row px-4" id="alert-message">
+            <div class="col-12 alert alert-success" role="alert"">
+                {{ message }}
+            </div>
+        </div>
+    {% endfor %}
+    {% endif %}
+    
+        
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <h1>Events</h1>
+        </div>
+        <div class="col-md-6 mb-3">
+            <a href="{{ path("add_event") }}" class="btn btn-primary float-md-right">
+                <i class="fa fa-pencil"></i> Add an Event
+            </a>
+        </div>
+        <div class="col-md-12">
+            <form id='search-form' class="form-inline">
+                <select id="search-filter" class="form-control d-block w-100" placeholder="Search for Event type...">
+                    <option value="all">All</option>
+                    <option value="music">Music</option>
+                    <option value="movie">Movie</option>
+                    <option value="sport">Sport</option>
+                    <option value="food">Food</option>
+                    <option value="technology">Technology</option>
+                </select>
+            </form>
+        </div>
+    </div>
+    <h3 id="filter-type-heading">Filter: All</h3>
+</div>
+    <div class="container-fluid wrapper">
+        <div class="row mt-5 d-flex justify-content-center" id="events-content" id="small">
+            {% if events | length == 0 %}
+                There are no events
+            {% endif %}
+            {% for event in events %}
+            <div class="col-12 col-md-6 col-lg-3 mb-5">
+                <div class="card mb-4 bg-white h-100">
+                    <img class="event-picture" src="{{ event.image }}" class="d-inline-block d-none d-md-inline-block card-img-top" alt="picture of an event">
+                    <div class="card-body d-flex flex-column card-body-container">
+                        <h5 class="card-title">{{ event.name }}</h5>
+                        <p>Date: {{ event.date|date('Y-m-d H:i')}}</p>
+                        <a href="/show/{{ event.id }}" class="btn btn-dark card-button">Show Event</a>
+                    </div>
+                </div>
+            </div>
+    
+            {% endfor %}
+            
+        
+        </div>
+
+    </div>
+
+{% endblock %}
